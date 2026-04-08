@@ -2,11 +2,11 @@ import json
 import os
 
 # ---------------------------------------------------------------------------
-# Path resolution — package-relative so the whole folder can be moved freely.
+# Path resolution — package-relative so the whole folder is self-contained.
 # ---------------------------------------------------------------------------
-_PACKAGE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_ROOT = os.path.join(_PACKAGE_DIR, "story_context_data")
-_DEFAULT_PROFILES = os.path.join(_PACKAGE_DIR, "config", "profiles.yml")
+PACKAGE_ROOT = os.path.dirname(os.path.abspath(__file__))
+DATA_ROOT = os.path.join(PACKAGE_ROOT, "story_context_data")
+_DEFAULT_PROFILES = os.path.join(PACKAGE_ROOT, "config", "profiles.yml")
 
 
 class StoryContextError(Exception):
@@ -50,7 +50,7 @@ def save_yaml(path: str, data: dict) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Profile loading — reads the same config/profiles.yml used by sync.
+# Profile loading — reads the package-local config/profiles.yml.
 # Only extracts the fields story_context actually needs; no migration logic.
 # ---------------------------------------------------------------------------
 
@@ -80,7 +80,7 @@ def get_profile(name: str | None, profiles_file: str | None = None) -> dict:
     if not data or "profiles" not in data:
         raise StoryContextError(
             f"Missing or invalid profiles file: {path}\n"
-            "Run 'py -m sync setup' to create your profile."
+            "Create story_context/config/profiles.yml or pass --profiles-file."
         )
     raw_profiles = data.get("profiles") or {}
     if not raw_profiles:

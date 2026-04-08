@@ -14,29 +14,28 @@ from typing import Iterable
 import requests
 from cryptography.fernet import Fernet
 
-from .config import StoryContextError
+from .config import PACKAGE_ROOT, StoryContextError
 from .utils import chunked
 
 # ---------------------------------------------------------------------------
 # PAT decryption — forked from utils/fileOperations/PATOperations.py
-# Keys resolved package-relative so the folder can be moved freely.
+# Keys resolved package-relative so the folder is self-contained.
 # ---------------------------------------------------------------------------
 
-_PACKAGE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_KEY_FILE = os.path.join(_PACKAGE_DIR, "keys", "encryption.key")
-_TOKEN_FILE = os.path.join(_PACKAGE_DIR, "keys", "patToken.enc")
+_KEY_FILE = os.path.join(PACKAGE_ROOT, "keys", "encryption.key")
+_TOKEN_FILE = os.path.join(PACKAGE_ROOT, "keys", "patToken.enc")
 
 
 def _decrypt_pat() -> str:
     if not os.path.exists(_KEY_FILE):
         raise StoryContextError(
             f"Encryption key not found at '{_KEY_FILE}'. "
-            "Run 'py -m sync setup' to create your PAT, then retry."
+            "Create story_context/keys/encryption.key, then retry."
         )
     if not os.path.exists(_TOKEN_FILE):
         raise StoryContextError(
             f"PAT token not found at '{_TOKEN_FILE}'. "
-            "Run 'py -m sync setup' to create your PAT, then retry."
+            "Create story_context/keys/patToken.enc, then retry."
         )
     with open(_KEY_FILE, "rb") as fh:
         key = fh.read()
@@ -60,7 +59,7 @@ def check_keys() -> None:
     if not os.path.exists(_KEY_FILE) or not os.path.exists(_TOKEN_FILE):
         raise StoryContextError(
             f"Keys not found at '{_KEY_FILE}' / '{_TOKEN_FILE}'. "
-            "Run 'py -m sync setup' to create them."
+            "Create the story_context/keys files before running this command."
         )
 
 

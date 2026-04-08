@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import os
 
-from .config import DATA_ROOT, StoryContextError, digest_path
+from .config import PACKAGE_ROOT, digest_path
 from .utils import now_iso
 
 # Source files to include in the digest, in priority order.
@@ -57,13 +57,16 @@ def find_digest_sources(repo_root: str) -> list[tuple[str, str]]:
     return results
 
 
-def generate_digest(profile_name: str, repo_root: str = ".") -> str:
+def generate_digest(profile_name: str, repo_root: str | None = None) -> str:
     """Compose the project digest Markdown string.
 
     Includes a machine-readable HTML comment header, then one section per
     source file.  Missing files are noted with a placeholder paragraph.
     Warns to stderr if the final content exceeds 50KB.
     """
+    if repo_root is None:
+        repo_root = PACKAGE_ROOT
+
     generated_at = now_iso()
     sources = find_digest_sources(repo_root)
     found_names = [name for name, _ in sources]

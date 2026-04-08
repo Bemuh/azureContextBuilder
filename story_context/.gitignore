@@ -1,0 +1,9 @@
+# Local secrets
+keys/
+config/profiles.yml
+
+# Generated story corpus and bundles
+story_context_data/
+
+# Local test/runtime artifacts
+.pytest_tmp/
