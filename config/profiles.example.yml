@@ -1,0 +1,10 @@
+profiles:
+  default:
+    ado:
+      org_url: https://dev.azure.com/your-org
+      project: your-project
+    paths:
+      last_area_path: Your Area Path
+      last_iteration_path: Your Iteration Path
+ui:
+  active_profile: default

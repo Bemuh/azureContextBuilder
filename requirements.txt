@@ -1,0 +1,5 @@
+cryptography
+requests
+pyyaml
+pytest
+markitdown>=0.1

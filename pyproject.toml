@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "story-context"
+version = "0.1.0"
+description = "Download Azure DevOps stories into an organized Markdown corpus."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "cryptography",
+  "requests",
+  "pyyaml",
+  "markitdown>=0.1",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+]
+
+[project.scripts]
+story-context = "story_context.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["story_context*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

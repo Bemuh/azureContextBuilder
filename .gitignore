@@ -1,0 +1,8 @@
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+*.pyc
+story_context_data/
+config/profiles.yml
